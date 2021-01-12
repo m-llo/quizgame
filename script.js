@@ -6,8 +6,8 @@ let incorrectEl = document.querySelector("#incorrect")
 
 
 let timeLeft = 120;
-let correct = 0;
-let incorrect = 0;
+let correct = 5
+let incorrect = 3;
 
 timerEl.textContent= "Time remaining: " + timeLeft;
 correctEl.textContent= "Correct: " + correct;
@@ -15,11 +15,11 @@ incorrectEl.textContent="Incorrect: " + incorrect;
 
 
 function countDown() {
-    
+    quizEndEl.textContent=" "
     // let timeLeft = 120;
     // timerEl.textContent= "Time remaining: " + timeLeft;
     let timerInterval = setInterval(function() {
-        timeLeft++;
+        timeLeft--;
         if (timeLeft === 0) {
             clearInterval(timerInterval);
             quizOver();
@@ -28,17 +28,22 @@ function countDown() {
 }
 
 function quizOver(){
-    if(correct > incorrect){
+    if(correct >= incorrect){
     quizEndEl.textContent="YOU PASS!"
-    } else {
+    } 
+    else {
     quizEndEl.textContent="YOU FAILED!"    
     }
+    
+    localStorage.setItem("highscores", correct)
+
 }
 console.log(timeLeft);
 console.log(timerEl);
 console.log(correct)
 console.log(incorrect);
 
+
 countDown();
 
-quizOver();
+// quizOver();
