@@ -105,28 +105,38 @@ function countDown() {
 
 
 function quizContent(){
-querySelector("#questions")
 // for loop and indexof to move through array of options, +1
 // var correctAnswer = /* document event target click answer;*/
 
 for(var i = 0; i < questionMaster; i++) {
-    questionsEl.innerHTML = questionMaster.question
-    answersEl.innerHTML = questionMaster.options + questionMaster.answer
+    questionsEl.textContent = questionMaster.question[i];
+    answersEl.textContent = answerOptions;
+    var answerOptions = document.createElement("button");
+    answerOptions.textContent = questionMaster.answer + questionMaster.options
+    
     console.log(questionsEl);
     console.log(answersEl);
 
-    if (""){
-        correct++
+    // if (""){
+    //     correct++
 
-    }
-    else {
-        incorrect++;
-    }
+    // }
+    // else {
+    //     incorrect++;
+    // }
    
 }
 };
-
-
+console.log(questionMaster[0]);
+console.log(questionMaster[1]);
+console.log(questionMaster[2]);
+console.log(questionMaster.question);
+console.log(questionMaster.answer);
+console.log(questionMaster.options);
+console.log(timeLeft);
+console.log(timerEl);
+console.log(correct)
+console.log(incorrect);
 
 
 function quizOver(){
@@ -141,10 +151,7 @@ function quizOver(){
     localStorage.setItem("highscores", correct);
 
 };
-console.log(timeLeft);
-console.log(timerEl);
-console.log(correct)
-console.log(incorrect);
+
 
 
 // countDown();
