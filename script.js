@@ -14,145 +14,158 @@
 var timerEl = document.querySelector("#timer");
 var questionsEl = document.querySelector("#questions")
 var quizEndEl = document.querySelector("#quiz-over")
-var correctEl = document.querySelector("#correct")
-var incorrectEl = document.querySelector("#incorrect")
-var answersEl = document.querySelector("#answers")
-var firstAnswerEl = document.querySelector("#first-answer")
-var secondAnswerEl = document.querySelector("#second-answer")
-var thirdAnswerEl = document.querySelector("#third-answer")
-var fourthAnswerEl = document.querySelector("#fourth-answer")
+
+
+var currentQuestionIndex = 0;
+var totalScore = correct;
 
 
 
+// var questionFive =[];
+// var answersFive = [];
 
-var timeLeft = 120;
-var correct = 0;
-var incorrect = 0;
-
-// var questionOne =["Inside which HTML element do we put the JavaScript?"];
-// var questionTwo =["What is the correct JavaScript syntax to change the content of the HTML element below?"];
-// var questionThree =["What is the correct place to insert a JavaScript?"];
-// var questionFour =["What is the correct syntax for referring to an external script called 'xxx.js?'"];
-// var questionFive =["How do you write 'Hello World' in an alert box?"];
-// var totalScore = correct;
-
-// var answersOne = ["scripting","js", "javascript","script"];
-// var answersTwo = ["document.getElementById('p').innerHTML = 'Hello WOrld!'", "document.getElementById('demo').innerHTML='Hello World!'", "#demo.innerHTML = 'Hello World!'", "document.getElementsByName('p').innerHTML='Hello World!'"];
-// var answersThree = ["the <body> section", "The <head> section","The <footer> section", "Both the <head> section and the <body> section are correct",];
-// var answersFour = ["<script src = 'xxx.js'>", "<script name = 'xxx.js'>", "<script href='xxx.js'>"];
-// var answersFive = ["alertBox('Hello World')", "alert('Hello World')", "msg('Hello World')", "msgBox('Hello World')"];
-
-var questionMaster= [ 
+var questions = [
     {
         question:"Inside which HTML element do we put the JavaScript?",
-        answer : "script",
-        options: ["scripting","js", "javascript"]
+        answer:"<script>",
+        options: ["<scripting>", "<js>","<script>", "<javascript>"]
     },
     {
-        question:"What is the correct syntax for referring to an external script called 'xxx.js?'",
-        answer : "<script src = 'xxx.js'>",
-        options: ["<script name = 'xxx.js'>", "<script href='xxx.js'>","None of these"]
+        question:"What is the correct syntax for referring to an external script called 'xxxx.js?'",
+        answer:"<script src = 'xxxx.js'>",
+        options: ["<script name = 'xxxx.js'>", "<script href='xxxx.js'>","<script src = 'xxxx.js'>", "None of these"]
     },
     {
-        question:"Inside which HTML element do we put the JavaScript?",
-        answer : "Both the <head> section and the <body> section are correct",
-        options: ["the <body> section", "The <head> section","The <footer> section",]
-    }
+        question:"What is the correct place to insert a JavaScript?",
+        answer: "Both the <head> section and the <body> section are correct",
+        options: ["Both the <head> section and the <body> section are correct", "the <body> section", "The <head> section", "The <footer> section",]
+    },
+    {
+        question:"How do you write 'Hello World' in an alert box?",
+        answer:"<script src = 'xxxx.js'>",
+        options: ["alertBox('Hello World')", "alert('Hello World')", "msg('Hello World')", "msgBox('Hello World')"]
+    },
+    {
+        question:"How do you create a function in JavaScript?",
+        answer:"function myFunction()",
+        options: ["function = myFunction()", "function:myFunction()", "function myFunction()", "myFunction(), Function"]
+    },
+    {
+        question:"How do you call a function named 'myFunction'",
+        answer:"myFunction()",
+        options: ["myFunction()", "call function myFunction()", "call Function()", "myFunction"]
+    },
+    {
+        question:"How to write an IF statement in JavaScript",
+        answer:"if(i==5){}",
+        options: ["if i=5()", "if i==5 then", "if i==5{}", "if(i==5){}"]
+    },
 
 ];
 
 
 
 
-
-
-
-correctEl.textContent= "Correct: " + correct;
-incorrectEl.textContent="Incorrect: " + incorrect;
-
-
-
-
-// function init(){
-// questionsEl.TextContent = "JavaScript Quiz Challenge"
-
-
-// }
 var startButton = document.querySelector("#start-button");
 
-startButton.addEventListener ("click", function(){
-console.log("It works!");
-countDown();
-quizContent();
-
-
-
+startButton.addEventListener("click", function () {
+    console.log("It works!");
+    countDown();
+    displayQuestion();
+    timeLeft = 30;
+    startButton.style.visibility = "hidden";
 });
 
+
+var timeLeft = "";
 function countDown() {
-    quizEndEl.textContent=" "
-    let timerInterval = setInterval(function() {
+    quizEndEl.textContent = " "
+    let timerInterval = setInterval(function () {
         timeLeft--;
-        timerEl.textContent= "Time remaining: " + timeLeft;
-        quizContent();
-        if (timeLeft === 0) {
+        timerEl.textContent = "Time remaining: " + timeLeft;
+        if (timeLeft <= 0) {
+
             clearInterval(timerInterval);
             quizOver();
         }
     }, 1000);
 }
+var game = document.querySelector("#gameplay")
 
 
-
-function quizContent(){
-// for loop and indexof to move through array of options, +1
-// var correctAnswer = /* document event target click answer;*/
-
-for(var i = 0; i < questionMaster; i++) {
-    questionsEl.textContent = questionMaster.question[i];
-    answersEl.textContent = answerOptions;
-    var answerOptions = document.createElement("button");
-    answerOptions.textContent = questionMaster.answer + questionMaster.options
+function displayQuestion() {
+    var q = questions[currentQuestionIndex].question
+    var h2 = document.createElement("h2")
+    h2.textContent = q;
+    game.appendChild(h2);
     
-    console.log(questionsEl);
-    console.log(answersEl);
 
-    // if (""){
-    //     correct++
-
-    // }
-    // else {
-    //     incorrect++;
-    // }
-   
-}
-};
-console.log(questionMaster[0]);
-console.log(questionMaster[1]);
-console.log(questionMaster[2]);
-console.log(questionMaster.question);
-console.log(questionMaster.answer);
-console.log(questionMaster.options);
-console.log(timeLeft);
-console.log(timerEl);
-console.log(correct)
-console.log(incorrect);
-
-
-function quizOver(){
-    if(correct >= incorrect){
-    quizEndEl.textContent="YOU PASS!"
-    } 
-    else {
-    quizEndEl.textContent="YOU FAILED!"    
+    for (var i = 0; i < questions[currentQuestionIndex].options.length; i++) {
+        var div = document.createElement("button");
+        var choice = questions[currentQuestionIndex].options[i];
+        div.addEventListener("click", function(){
+            var playerChoice = this.textContent 
+            checkAnswer(questions[currentQuestionIndex].answer, playerChoice)
+        })
+        div.textContent = choice;
+        game.appendChild(div);
     }
-    questionsEl.textContent = "";
-    answersEl.textContent = "";
-    localStorage.setItem("highscores", correct);
-
 };
 
 
 
-// countDown();
-// // quizContent();
+
+var correctEl = document.querySelector("#correct")
+var incorrectEl = document.querySelector("#incorrect")
+var correct = 0;
+var incorrect = 0;
+
+
+
+
+function checkAnswer(answer, choice) {
+
+    if (answer === choice) {
+        correct++;
+        timeLeft += 2;
+        console.log("right")
+    }
+    else{
+        timeLeft -= 2;
+        incorrect++;
+        console.log("wrong")
+    }
+    correctEl.textContent = "Correct: " + correct;
+    incorrectEl.textContent = "Incorrect: " + incorrect;
+    console.log("answer: "+ answer);
+    console.log("choice: " + choice);
+    console.log(correct)
+    console.log(incorrect)
+    currentQuestionIndex++;
+    game.textContent="";
+    displayQuestion()
+
+};
+function quizOver() {
+  
+    quizEndEl.textContent= "All Done!"
+    game.textContent = "";
+    var enterName = document.createElement("p");
+    enterName.textContent = "Enter your name to log your score!";
+    var highScores = document.createElement("input");
+    var submitHighScore = document.createElement("button")
+    submitHighScore.setAttribute("type","submit");
+    submitHighScore.textContent="Submit";
+    game.append(enterName);
+    game.append(highScores);
+    game.append(submitHighScore);
+    startButton.style.visibility = "visible";
+    submitHighScore.addEventListener("click,", function(){
+        localStorage.setItem("HighScore", highScores);
+    })
+        
+};
+
+
+
+
