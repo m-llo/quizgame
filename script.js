@@ -14,11 +14,16 @@
 var timerEl = document.querySelector("#timer");
 var questionsEl = document.querySelector("#questions")
 var quizEndEl = document.querySelector("#quiz-over")
-
+var enterName = document.createElement("p");
+var scoresInput = document.createElement("input");
+var submitScore = document.createElement("button");
 
 var currentQuestionIndex = 0;
 var totalScore = correct;
-
+var correctEl = document.querySelector("#correct")
+var incorrectEl = document.querySelector("#incorrect")
+var correct = 0;
+var incorrect = 0;
 
 var questions = [
     {
@@ -59,19 +64,24 @@ var questions = [
 
 ];
 
-
-
-
 var startButton = document.querySelector("#start-button");
 
 startButton.addEventListener("click", function () {
     console.log("It works!");
+    currentQuestionIndex = 0;
+    correct = 0;
+    incorrect = 0;
+    timeLeft = 0;
+    scoresInput.style.visibility = "hidden";
+    enterName.style.visibility = "hidden";
+    submitScore.style.visibility = "hidden";
+    scoreList.style.visibility = "hidden";
     countDown();
     displayQuestion();
     timeLeft = 30;
     startButton.style.visibility = "hidden";
+    ;
 });
-
 
 var timeLeft = "";
 function countDown() {
@@ -83,41 +93,10 @@ function countDown() {
 
             clearInterval(timerInterval);
             quizOver();
+            return;
         }
     }, 1000);
 }
-var game = document.querySelector("#gameplay")
-
-
-function displayQuestion() {
-    var q = questions[currentQuestionIndex].question
-    var h2 = document.createElement("h2")
-    h2.textContent = q;
-    game.appendChild(h2);
-
-
-    for (var i = 0; i < questions[currentQuestionIndex].options.length; i++) {
-        var div = document.createElement("button");
-        var choice = questions[currentQuestionIndex].options[i];
-        div.addEventListener("click", function () {
-            var playerChoice = this.textContent
-            checkAnswer(questions[currentQuestionIndex].answer, playerChoice)
-        })
-        div.textContent = choice;
-        game.appendChild(div);
-    }
-};
-
-
-
-
-var correctEl = document.querySelector("#correct")
-var incorrectEl = document.querySelector("#incorrect")
-var correct = 0;
-var incorrect = 0;
-
-
-
 
 function checkAnswer(answer, choice) {
 
@@ -138,59 +117,95 @@ function checkAnswer(answer, choice) {
     console.log(correct)
     console.log(incorrect)
     currentQuestionIndex++;
+    console.log("current question index: " + currentQuestionIndex);
+    if (currentQuestionIndex === 7) {
+        timeLeft = 0
+        return;
+    };
     game.textContent = "";
-    displayQuestion()
+    displayQuestion();
 
 };
+
+var game = document.querySelector("#gameplay")
+
+function displayQuestion() {
+    var q = questions[currentQuestionIndex].question;
+    var h2 = document.createElement("h2");
+    h2.textContent = q;
+    game.appendChild(h2);
+
+
+    for (var i = 0; i < questions[currentQuestionIndex].options.length; i++) {
+        var div = document.createElement("button");
+        var choice = questions[currentQuestionIndex].options[i];
+        div.addEventListener("click", function () {
+            var playerChoice = this.textContent
+            checkAnswer(questions[currentQuestionIndex].answer, playerChoice)
+        })
+        div.textContent = choice;
+        game.appendChild(div);
+    }
+};
+
 function quizOver() {
 
     quizEndEl.textContent = "All Done!"
     game.textContent = "";
-    var enterName = document.createElement("p");
     enterName.textContent = "Enter your name to log your score!";
-    var scoresInput = document.createElement("input");
-    var submitScore = document.createElement("button");
     submitScore.setAttribute("type", "submit");
     submitScore.textContent = "Submit";
+    scoresInput.style.visibility = "visible";
+    enterName.style.visibility = "visible";
+    submitScore.style.visibility = "visible";
     game.append(enterName);
     game.append(scoresInput);
     game.append(submitScore);
-    
-    startButton.style.visibility = "visible";
-   
-    function saveScore(){
-        var logScores = {
-            name: scoresInput.value,
-            score: correct,
-        };
-        localStorage.setItem("scores", JSON.stringify(logScores));
-    };
 
-    submitScore.addEventListener("click,", function (event) {
-    event.preventDefault;
-    saveScore();
-    })
-    
+    startButton.style.visibility = "visible";
+
 };
 
+submitScore.addEventListener("click", function () {
+    console.log(scoresInput.value);
+    console.log(correct)
+    saveScore()
+});
 
+function saveScore() {
+    var savedScores = JSON.parse(localStorage.getItem("Scores")) || [];
+
+    var loggedScore = {
+        name: scoresInput.value,
+        score: correct,
+    };
+    savedScores.push(loggedScore);
+    localStorage.setItem("scores", JSON.stringify(loggedScore));
+    console.log(savedScores);
+
+};
 
 var scoreEl = document.querySelector("#score-log")
 
-
-scoreEl.addEventListener("click,", function (event) {
+scoreEl.addEventListener("click", function (event) {
     event.preventDefault();
+    scoreList.style.visibility = "visible"
     renderScore()
-    function renderScore(){
-    var lastScore = JSON.parse(localStorage.getItem("Scores"));
-    var scoreList = scoreEL.createElement("p");
-       scoreEl.append(scoreList);
-       scoreList.textContent = lastScore
-   
+});
 
+var nameList = [10];
+var scoreList = document.querySelector("#scores");
+function renderScore() {
+    var scores = JSON.parse(localStorage.getItem("scores"));
+    var scoreList = document.querySelector("#scores");
+    var renderedScore = scores.name + " , " + scores.score;
+    for (var i = 0; i < nameList.length; i++) {
+        var li = document.createElement("li");
+        li.textContent = renderedScore;
+        li.setAttribute("data-index", i);
+        scoreList.appendChild(li);
+    }
 
-}});
-
-
+};
 
 
