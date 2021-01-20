@@ -150,7 +150,7 @@ function quizOver() {
 
     quizEndEl.textContent = "All Done!"
     game.textContent = "";
-    enterName.textContent = "Enter your name to log your score!";
+    enterName.textContent = "Enter your name to log your score. \n Click Start to try again!";
     submitScore.setAttribute("type", "submit");
     submitScore.style.color='#fff';
     submitScore.style.backgroundColor='#33A8FF';
