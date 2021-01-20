@@ -135,11 +135,11 @@ function displayQuestion() {
         })
         div.textContent = choice;
         div.style.margin = '15px';
-        div.style.marginLeft='25%';
+        div.style.marginLeft = '25%';
         div.style.width = '50%';
-        div.style.borderRadius ='8px';
+        div.style.borderRadius = '8px';
         div.style.color = '#fff';
-        div.style.backgroundColor ='#33A8FF';
+        div.style.backgroundColor = '#33A8FF';
         div.style.fontSize = '28px';
         div.style.textAlign = 'center';
         game.appendChild(div);
@@ -152,11 +152,11 @@ function quizOver() {
     game.textContent = "";
     enterName.textContent = "Enter your name to log your score. \n Click Start to try again!";
     submitScore.setAttribute("type", "submit");
-    submitScore.style.color='#fff';
-    submitScore.style.backgroundColor='#33A8FF';
-    submitScore.style.fontSize='28px';
-    submitScore.style.margin='2px';
-    submitScore.style.borderRadius='8px';
+    submitScore.style.color = '#fff';
+    submitScore.style.backgroundColor = '#33A8FF';
+    submitScore.style.fontSize = '28px';
+    submitScore.style.margin = '2px';
+    submitScore.style.borderRadius = '8px';
     submitScore.textContent = "Submit";
     scoresInput.style.fontSize = "28px";
     enterName.style.fontSize = "24px";
