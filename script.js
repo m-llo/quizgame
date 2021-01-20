@@ -1,23 +1,11 @@
-// GIVEN I am taking a code quiz
-// WHEN I click the start button
-// THEN a timer starts and I am presented with a question
-// WHEN I answer a question
-// THEN I am presented with another question
-// WHEN I answer a question incorrectly
-// THEN time is subtracted from the clock
-// WHEN all questions are answered or the timer reaches 0
-// THEN the game is over
-// WHEN the game is over
-// THEN I can save my initials and my score
-
-
 var timerEl = document.querySelector("#timer");
 var questionsEl = document.querySelector("#questions")
 var quizEndEl = document.querySelector("#quiz-over")
 var enterName = document.createElement("p");
 var scoresInput = document.createElement("input");
 var submitScore = document.createElement("button");
-
+var game = document.querySelector("#gameplay")
+var startButton = document.querySelector("#start-button");
 var currentQuestionIndex = 0;
 var totalScore = correct;
 var correctEl = document.querySelector("#correct")
@@ -64,8 +52,8 @@ var questions = [
 
 ];
 
-var startButton = document.querySelector("#start-button");
 
+// Starts the quiz
 startButton.addEventListener("click", function () {
     console.log("It works!");
     currentQuestionIndex = 0;
@@ -82,7 +70,7 @@ startButton.addEventListener("click", function () {
     startButton.style.visibility = "hidden";
     ;
 });
-
+// time remaining counter appears once start button is clicked
 var timeLeft = "";
 function countDown() {
     quizEndEl.textContent = " "
@@ -97,7 +85,7 @@ function countDown() {
         }
     }, 1000);
 }
-
+// confirms if the user selected the correct answer, logs scores, and calls next questions
 function checkAnswer(answer, choice) {
 
     if (answer === choice) {
@@ -127,12 +115,14 @@ function checkAnswer(answer, choice) {
 
 };
 
-var game = document.querySelector("#gameplay")
 
+// cycles through questions array 
 function displayQuestion() {
     var q = questions[currentQuestionIndex].question;
     var h2 = document.createElement("h2");
     h2.textContent = q;
+    h2.style.margin = 'auto';
+    h2.style.width = '50%';
     game.appendChild(h2);
 
 
@@ -144,17 +134,32 @@ function displayQuestion() {
             checkAnswer(questions[currentQuestionIndex].answer, playerChoice)
         })
         div.textContent = choice;
+        div.style.margin = '15px';
+        div.style.marginLeft='25%';
+        div.style.width = '50%';
+        div.style.borderRadius ='8px';
+        div.style.color = '#fff';
+        div.style.backgroundColor ='#33A8FF';
+        div.style.fontSize = '28px';
+        div.style.textAlign = 'center';
         game.appendChild(div);
     }
 };
-
+// once quiz is over clears game area and prompts user name to log score
 function quizOver() {
 
     quizEndEl.textContent = "All Done!"
     game.textContent = "";
     enterName.textContent = "Enter your name to log your score!";
     submitScore.setAttribute("type", "submit");
+    submitScore.style.color='#fff';
+    submitScore.style.backgroundColor='#33A8FF';
+    submitScore.style.fontSize='28px';
+    submitScore.style.margin='2px';
+    submitScore.style.borderRadius='8px';
     submitScore.textContent = "Submit";
+    scoresInput.style.fontSize = "28px";
+    enterName.style.fontSize = "24px";
     scoresInput.style.visibility = "visible";
     enterName.style.visibility = "visible";
     submitScore.style.visibility = "visible";
